@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#040506">
+<title>Saraswati-1</title>
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns=%27http://www.w3.org/2000/svg%27 viewBox=%270 0 64 64%27%3E%3Cdefs%3E%3ClinearGradient id=%27g%27 x1=%270%27 y1=%271%27 x2=%271%27 y2=%270%27%3E%3Cstop offset=%270%27 stop-color=%27%23c8ff2e%27/%3E%3Cstop offset=%27.55%27 stop-color=%27%232ef2ff%27/%3E%3Cstop offset=%271%27 stop-color=%27%23ff3fd8%27/%3E%3C/linearGradient%3E%3C/defs%3E%3Ccircle cx=%2732%27 cy=%2732%27 r=%2730%27 fill=%27%23040506%27/%3E%3Ccircle cx=%2732%27 cy=%2732%27 r=%2718%27 fill=%27none%27 stroke=%27url(%23g)%27 stroke-width=%278%27/%3E%3C/svg%3E">
+<link rel="stylesheet" href="css/fonts.css">
+<link rel="stylesheet" href="css/saraswati.css">
+</head>
+<body>
+
+<!-- static liquid-acid background (used when LIQUID LIGHT is off) -->
+<div class="bg-static" aria-hidden="true">
+  <svg viewBox="0 0 1600 1000" preserveAspectRatio="xMidYMid slice">
+    <defs>
+      <filter id="liquid" x="-15%" y="-15%" width="130%" height="130%" color-interpolation-filters="sRGB">
+        <feTurbulence type="fractalNoise" baseFrequency="0.0016 0.0026" numOctaves="3" seed="23" result="n"/>
+        <feDisplacementMap in="SourceGraphic" in2="n" scale="560" xChannelSelector="R" yChannelSelector="B" result="d"/>
+        <feGaussianBlur in="d" stdDeviation="1.4"/>
+      </filter>
+    </defs>
+    <g filter="url(#liquid)" transform="rotate(-24 800 500)">
+      <rect x="-400" y="-300" width="2400" height="1600" fill="#040506"/>
+      <rect x="-400" y="-120" width="2400" height="46" fill="#c8ff2e"/>
+      <rect x="-400" y="-40"  width="2400" height="16" fill="#ff3fd8"/>
+      <rect x="-400" y="70"   width="2400" height="90" fill="#8b5cff" opacity=".8"/>
+      <rect x="-400" y="190"  width="2400" height="12" fill="#2ef2ff"/>
+      <rect x="-400" y="250"  width="2400" height="60" fill="#c8ff2e" opacity=".85"/>
+      <rect x="-400" y="360"  width="2400" height="24" fill="#ff3fd8"/>
+      <rect x="-400" y="430"  width="2400" height="130" fill="#0b0f0c"/>
+      <rect x="-400" y="600"  width="2400" height="18" fill="#2ef2ff"/>
+      <rect x="-400" y="650"  width="2400" height="70" fill="#ff3fd8" opacity=".75"/>
+      <rect x="-400" y="760"  width="2400" height="14" fill="#c8ff2e"/>
+      <rect x="-400" y="820"  width="2400" height="110" fill="#8b5cff" opacity=".7"/>
+      <rect x="-400" y="970"  width="2400" height="26" fill="#2ef2ff" opacity=".9"/>
+      <rect x="-400" y="1040" width="2400" height="60" fill="#c8ff2e" opacity=".8"/>
+      <rect x="-400" y="1150" width="2400" height="20" fill="#ff3fd8"/>
+    </g>
+  </svg>
+</div>
+<!-- dynamic "liquid light" background -->
+<canvas id="lights" aria-hidden="true"></canvas>
+
+<!-- shared knob gradients -->
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <defs>
+    <linearGradient id="kgrad" x1="0" y1="1" x2="1" y2="0">
+      <stop offset="0" stop-color="#c8ff2e"/><stop offset=".55" stop-color="#2ef2ff"/><stop offset="1" stop-color="#ff3fd8"/>
+    </linearGradient>
+    <linearGradient id="vgrad" x1="0" y1="1" x2="1" y2="0">
+      <stop offset="0" stop-color="#ff3fd8"/><stop offset=".45" stop-color="#8b5cff"/><stop offset=".75" stop-color="#2ef2ff"/><stop offset="1" stop-color="#c8ff2e"/>
+    </linearGradient>
+    <radialGradient id="kcapMix" cx=".34" cy=".28" r=".95">
+      <stop offset="0" stop-color="#ffffff"/>
+      <stop offset=".22" stop-color="#c8ff2e"><animate attributeName="stop-color" values="#c8ff2e;#2ef2ff;#8b5cff;#ff3fd8;#c8ff2e" dur="2.2s" repeatCount="indefinite"/></stop>
+      <stop offset=".62" stop-color="#ff3fd8"><animate attributeName="stop-color" values="#ff3fd8;#c8ff2e;#2ef2ff;#8b5cff;#ff3fd8" dur="2.2s" repeatCount="indefinite"/></stop>
+      <stop offset="1" stop-color="#0a0b0d"/>
+    </radialGradient>
+    <radialGradient id="kcap" cx=".34" cy=".28" r=".95">
+      <stop offset="0" stop-color="#ffffff"/><stop offset=".16" stop-color="#d4d9e0"/><stop offset=".46" stop-color="#535a64"/>
+      <stop offset=".8" stop-color="#16191c"/><stop offset="1" stop-color="#060708"/>
+    </radialGradient>
+  </defs>
+</svg>
+
+<header class="topbar">
+  <h1 class="logo-h"><button id="logoBtn" class="logo" aria-haspopup="dialog" title="About">SARASWATI-1</button></h1>
+  <div class="center">
+    <button id="randBtn" class="rand-btn" type="button" title="Randomize every control" aria-label="Random"><canvas aria-hidden="true"></canvas></button>
+    <button id="callBtn" class="auto" aria-pressed="false"><span class="ring"></span><span class="fill"></span><span class="dot"></span><span class="txt">CALL SARASWATI</span></button>
+    <div id="volSlot"></div>
+  </div>
+  <div class="top-right">
+    <button id="bgBtn" class="pill-switch" aria-pressed="false"><span class="track"></span>LIVE BACKGROUND</button>
+  </div>
+</header>
+
+<main><div class="rack" id="rack"></div></main>
+
+<section class="tunebar">
+  <div class="tb-head"><h2>OSCILLATORS</h2></div>
+  <div class="scroller" id="scroller"></div>
+</section>
+
+<div class="overlay" id="overlay">
+  <div>
+    <div class="logo">SARASWATI-1</div>
+    <button class="enter" id="enterBtn">ENTER</button>
+    <div class="caption" id="startMsg" style="margin-top:18px"></div>
+  </div>
+</div>
+
+<div class="modal" id="modal" role="dialog" aria-modal="true" aria-label="Info">
+  <div class="card panel">
+    <button class="info-btn close" id="closeInfo" aria-label="Close">×</button>
+    <div class="info-stack">
+      <div class="info-line"><span class="muted">Made by:</span><a class="made-by" href="https://panasko.dev" target="_blank" rel="noopener">radacuxiv</a></div>
+      <div class="info-line"><span class="muted">contact me on</span><a class="mail" href="mailto:mail@panasko.dev">mail@panasko.dev</a></div>
+      <a class="manual-btn" id="manualBtn" href="manual.html" target="saraswati-manual" rel="noopener">MANUAL</a>
+    </div>
+  </div>
+</div>
+
+<script src="js/dsp.js"></script>
+<script src="js/saraswati.js"></script>
+</body>
+</html>

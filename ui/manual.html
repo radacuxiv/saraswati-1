@@ -1,0 +1,658 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Saraswati-1 · Operator's Manual · TM 69-5895-SRW-1-10</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Courier+Prime:ital,wght@0,400;0,700;1,400&family=Special+Elite&display=swap">
+<style>
+  :root { --paper: #efe7d1; --ink: #1d1b17; --faded: #4d473c; --red: #a8261d; --rule: #2a2621; }
+  * { box-sizing: border-box; }
+  html { background: #2a2824; }
+  body { margin: 0; padding: 26px 12px 60px; font-family: "Courier Prime", "Courier New", monospace; color: var(--ink); font-size: 14px; line-height: 1.55; }
+  .sheet {
+    position: relative; width: min(880px, 100%); margin: 0 auto 26px; padding: 58px 62px 64px;
+    background-color: var(--paper);
+    background-image:
+      radial-gradient(120% 90% at 50% 40%, transparent 55%, rgba(120, 95, 50, 0.16) 100%),
+      url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='220' height='220'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 0.35  0 0 0 0 0.28  0 0 0 0 0.16  0 0 0 0.09 0'/></filter><rect width='100%' height='100%' filter='url(%23n)'/></svg>");
+    box-shadow: 0 18px 40px rgba(0, 0, 0, 0.55), inset 0 0 0 1px rgba(0, 0, 0, 0.06);
+  }
+  .run { position: absolute; left: 62px; right: 62px; top: 22px; display: flex; justify-content: space-between; font-size: 11px; letter-spacing: .08em; border-bottom: 1px solid var(--rule); padding-bottom: 4px; }
+  .foot { position: absolute; left: 62px; right: 62px; bottom: 22px; display: flex; justify-content: space-between; font-size: 11px; letter-spacing: .08em; border-top: 1px solid var(--rule); padding-top: 4px; }
+  h1, h2, h3, .typed { font-family: "Special Elite", "Courier New", monospace; font-weight: 400; }
+  h2 { font-size: 21px; text-align: center; letter-spacing: .06em; margin: 8px 0 2px; }
+  h2 + .sub { text-align: center; font-size: 12px; letter-spacing: .14em; margin-bottom: 22px; }
+  h3 { font-size: 15.5px; letter-spacing: .05em; margin: 22px 0 6px; }
+  p { margin: 0 0 10px; text-align: justify; hyphens: auto; }
+  ol, ul { margin: 4px 0 12px; padding-left: 26px; }
+  li { margin: 2px 0; }
+  b { font-weight: 700; }
+  .k { font-weight: 700; letter-spacing: .03em; }
+  table { width: 100%; border-collapse: collapse; margin: 8px 0 16px; font-size: 12.5px; }
+  th, td { border: 1px solid var(--rule); padding: 5px 7px; vertical-align: top; text-align: left; }
+  th { font-family: "Special Elite", monospace; font-weight: 400; background: rgba(0, 0, 0, 0.05); letter-spacing: .05em; }
+  td:first-child { width: 34px; text-align: center; }
+  table.spec td:first-child, table.trouble td:first-child { width: auto; text-align: left; white-space: nowrap; }
+  table.trouble td:first-child { white-space: normal; width: 26%; }
+  caption { caption-side: top; font-family: "Special Elite", monospace; text-align: center; padding-bottom: 6px; letter-spacing: .05em; }
+  .box { border: 2px solid var(--ink); padding: 10px 14px 6px; margin: 14px 0; }
+  .box .t { display: block; text-align: center; font-family: "Special Elite", monospace; letter-spacing: .3em; margin-bottom: 6px; }
+  .box.warn { border-width: 3px; outline: 1px solid var(--ink); outline-offset: 3px; }
+  .stamp { position: absolute; font-family: "Special Elite", monospace; color: var(--red); border: 3px double var(--red); padding: 6px 14px;
+    letter-spacing: .18em; opacity: .78; mix-blend-mode: multiply; transform: rotate(-9deg); pointer-events: none; text-align: center; line-height: 1.25; }
+  .redact { background: #141210; color: transparent; padding: 0 .2em; border-radius: 1px; user-select: none; }
+  figure { margin: 18px 0 20px; }
+  figure svg { width: 100%; height: auto; display: block; }
+  figcaption { text-align: center; font-family: "Special Elite", monospace; letter-spacing: .05em; margin-top: 6px; font-size: 13.5px; }
+  .toc { list-style: none; padding: 0; }
+  .toc li { display: flex; gap: 8px; }
+  .toc li span:nth-child(2) { flex: 1; border-bottom: 1px dotted var(--faded); transform: translateY(-5px); }
+  .toc .ch { margin-top: 8px; font-weight: 700; }
+  .cover { text-align: center; padding-top: 80px; min-height: 1080px; }
+  .cover .tm { font-size: 15px; letter-spacing: .12em; }
+  .cover h1 { font-size: 50px; letter-spacing: .1em; margin: 34px 0 6px; }
+  .cover .what { font-family: "Special Elite", monospace; font-size: 18px; letter-spacing: .12em; }
+  .cover .dist { border: 2px solid var(--ink); text-align: left; font-size: 12px; padding: 10px 14px; margin: 46px auto 0; max-width: 560px; }
+  a { color: var(--ink); }
+  .back { display: block; text-align: center; margin: 0 auto 18px; font-family: "Special Elite", monospace; color: #d9d0b8; letter-spacing: .2em; font-size: 13px; text-decoration: none; }
+  .back:hover { color: #fff; }
+  @media (max-width: 700px) {
+    .sheet { padding: 48px 20px 56px; }
+    .run, .foot { left: 20px; right: 20px; font-size: 9px; }
+    .cover h1 { font-size: 32px; }
+    body { font-size: 13px; }
+    table.spec td:first-child { white-space: normal; }
+    table { font-size: 11.5px; }
+  }
+  @media print {
+    html, body { background: none; padding: 0; }
+    .sheet { box-shadow: none; margin: 0; width: 100%; page-break-after: always; background-image: none; }
+    .back { display: none; }
+  }
+  svg.dwg text { font-family: "Courier Prime", "Courier New", monospace; fill: var(--ink); font-size: 11px; letter-spacing: .04em; }
+  svg.dwg .s { font-size: 9.5px; }
+  svg.dwg .b { font-weight: 700; }
+  svg.dwg .ln { fill: none; stroke: var(--ink); stroke-width: 1.4; }
+  svg.dwg .th { fill: none; stroke: var(--ink); stroke-width: 0.8; }
+  svg.dwg .dash { fill: none; stroke: var(--ink); stroke-width: 1.2; stroke-dasharray: 6 4; }
+  svg.dwg .box { fill: var(--paper); stroke: var(--ink); stroke-width: 1.4; }
+  svg.dwg .frame { fill: none; stroke: var(--ink); stroke-width: 2; }
+</style>
+</head>
+<body>
+<a class="back" id="back" href="index.html" target="saraswati-instrument">◄ RETURN TO INSTRUMENT</a>
+<script>
+  // the manual lives in its own tab: going back closes it (or switches to the instrument), never replaces the manual
+  document.getElementById('back').addEventListener('click', function (e) {
+    if (window.opener && !window.opener.closed) { e.preventDefault(); try { window.opener.focus(); } catch (err) {} window.close(); }
+  });
+</script>
+
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <defs>
+    <marker id="ar" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0 L10 5 L0 10 z" fill="#1d1b17"/></marker>
+    <pattern id="hatch" width="6" height="6" patternUnits="userSpaceOnUse" patternTransform="rotate(45)"><line x1="0" y1="0" x2="0" y2="6" stroke="#1d1b17" stroke-width="1"/></pattern>
+    <pattern id="ground" width="9" height="9" patternUnits="userSpaceOnUse" patternTransform="rotate(-35)"><line x1="0" y1="0" x2="0" y2="9" stroke="#1d1b17" stroke-width="0.9"/></pattern>
+  </defs>
+</svg>
+
+<!-- ============================================================ COVER -->
+<section class="sheet cover">
+  <div class="stamp" style="top:46px; right:46px; font-size:20px;">RESTRICTED</div>
+  <div class="tm">TM 69-5895-SRW-1-10</div>
+  <div class="typed" style="margin-top:10px; letter-spacing:.2em;">TECHNICAL MANUAL</div>
+  <h1>SARASWATI-1</h1>
+  <div class="what">OPERATOR'S MANUAL</div>
+  <div class="what" style="font-size:15px; margin-top:6px;">ORGANISMIC DRONE SYNTHESIS SET AN/SRW-1<br>WITH SARASWATI ENGINE (ULF CALL INTERFACE)</div>
+  <svg class="dwg" viewBox="0 0 420 300" style="width:min(420px,90%); margin:40px auto 0; display:block" aria-hidden="true">
+    <path class="dash" d="M10 70 Q210 20 410 70"/>
+    <path class="ln" d="M10 250 Q210 215 410 250"/>
+    <path d="M10 250 Q210 215 410 250 L410 290 L10 290 z" fill="url(#ground)" stroke="none"/>
+    <path class="ln" d="M70 150 q12 -16 24 0 t24 0 t24 0 t24 0 t24 0 t24 0 t24 0 t24 0 t24 0 t24 0 t24 0" marker-end="url(#ar)"/>
+    <path class="ln" d="M350 190 q-12 16 -24 0 t-24 0 t-24 0 t-24 0 t-24 0 t-24 0 t-24 0 t-24 0 t-24 0 t-24 0 t-24 0" marker-end="url(#ar)"/>
+    <line class="ln" x1="40" y1="245" x2="40" y2="140"/><path class="ln" d="M28 140 L40 120 L52 140 z"/>
+    <line class="th" x1="40" y1="170" x2="22" y2="240"/><line class="th" x1="40" y1="170" x2="58" y2="240"/>
+    <path class="ln" d="M380 246 L380 92 M374 246 L380 92 L386 246 M375 220 L385 200 M375 200 L385 180 M376 180 L384 160 M376 160 L384 140 M377 140 L383 120"/>
+    <circle class="ln" cx="380" cy="86" r="6"/>
+    <text x="210" y="48" text-anchor="middle" class="s">IONOSPHERE</text>
+    <text x="40" y="275" text-anchor="middle" class="s">OPERATOR</text>
+    <text x="380" y="275" text-anchor="middle" class="s">STATION</text>
+  </svg>
+  <div class="typed" style="margin-top:38px; letter-spacing:.14em;">HEADQUARTERS, DEPARTMENT OF ORGANISMIC SIGNALS</div>
+  <div style="letter-spacing:.14em; margin-top:4px;">OCTOBER 2026</div>
+  <div class="dist"><b>DISTRIBUTION STATEMENT A:</b> Approved for public release; distribution of drones is unlimited.<br>
+    <b>HANDLING:</b> This manual describes a musical instrument. Contact procedures in Chapter 5 shall be followed exactly.</div>
+  <div class="stamp" style="bottom:70px; left:58px; font-size:15px; transform:rotate(6deg);">DECLASSIFIED<br>FOR CIVILIAN DRONE USE</div>
+</section>
+
+<!-- ============================================================ CONTENTS -->
+<section class="sheet">
+  <div class="run"><span>TM 69-5895-SRW-1-10</span><span>SARASWATI-1</span></div>
+  <h2>TABLE OF CONTENTS</h2><div class="sub">&nbsp;</div>
+  <ul class="toc">
+    <li class="ch"><span>CHAPTER 1.</span><span></span><span>INTRODUCTION</span></li>
+    <li><span>1-1 Scope · 1-2 Equipment description · 1-3 Front panel arrangement</span><span></span><span>1-1</span></li>
+    <li class="ch"><span>CHAPTER 2.</span><span></span><span>FUNCTIONAL DESCRIPTION</span></li>
+    <li><span>2-1 Signal path · 2-2 Oscillator block · 2-3 Modulation · 2-4 Effects</span><span></span><span>2-1</span></li>
+    <li class="ch"><span>CHAPTER 3.</span><span></span><span>CONTROLS AND INDICATORS</span></li>
+    <li><span>Tables 3-1 through 3-7</span><span></span><span>3-1</span></li>
+    <li class="ch"><span>CHAPTER 4.</span><span></span><span>OPERATING PROCEDURES</span></li>
+    <li><span>4-1 Starting · 4-2 Drone · 4-3 Cross-mod · 4-4 LFO · 4-5 Ring · 4-6 Sends · 4-7 TIME controllers · 4-8 Expansion · 4-9 Live background</span><span></span><span>4-1</span></li>
+    <li class="ch"><span>CHAPTER 5.</span><span></span><span>THE SARASWATI ENGINE</span></li>
+    <li><span>5-1 General · 5-2 Station etiquette</span><span></span><span>5-1</span></li>
+    <li class="ch"><span>CHAPTER 6.</span><span></span><span>TROUBLESHOOTING</span></li>
+    <li class="ch"><span>APPENDIX A.</span><span></span><span>SPECIFICATIONS</span></li>
+    <li class="ch"><span>APPENDIX B.</span><span></span><span>HANDLING OF CONTROLS · CREDITS</span></li>
+    <li class="ch"><span>MWO 1.</span><span></span><span>SOFTNESS CONTROL · RANDOM BUTTON</span></li>
+  </ul>
+  <div class="box warn"><span class="t">WARNING</span>
+    <p>THE SET CAN PRODUCE HIGH SOUND LEVELS, SUB-AUDIO ENERGY AND SUDDEN TRANSIENTS (FEEDBACK, DRIVE, RING). SET <span class="k">VOLUME</span> LOW BEFORE THE FIRST KEY IS PRESSED AND BEFORE ANY SARASWATI SESSION. PROLONGED EXPOSURE TO DRONES AT HIGH LEVEL MAY DAMAGE HEARING.</p></div>
+  <div class="box"><span class="t">NOTE</span>
+    <p>Throughout this manual, control names are printed in <span class="k">BOLD</span> exactly as they appear on the panel. Paragraph numbers refer to chapter and paragraph (e.g. 4-7 is Chapter 4, paragraph 7).</p></div>
+  <div class="foot"><span>i</span><span>CHANGE 1</span></div>
+</section>
+
+<!-- ============================================================ CHAPTER 1 -->
+<section class="sheet">
+  <div class="run"><span>TM 69-5895-SRW-1-10</span><span>CHAPTER 1</span></div>
+  <h2>CHAPTER 1</h2><div class="sub">INTRODUCTION</div>
+  <h3>1-1. SCOPE</h3>
+  <p>This manual covers the operation of the SARASWATI-1 Organismic Drone Synthesis Set, hereafter called "the set". It describes the equipment, every control and indicator, the operating procedures, the call procedure for the SARASWATI ENGINE, troubleshooting and specifications. The set is intended for drones, ambient fields and outer-space signals.</p>
+  <h3>1-2. EQUIPMENT DESCRIPTION</h3>
+  <p>a. The set descends from the LIRA-8 project by Mike Moreno, a digital attempt at emulating the signal flow of the SOMA Laboratory LYRA-8. Its sound engine is a sample-by-sample reconstruction of that circuit, extended with the facilities described in this manual.</p>
+  <p>b. Major functional groups:</p>
+  <ol>
+    <li><b>Oscillator section.</b> Ten oscillators (OSC 1–10) arranged in five blocks of two. Expandable to sixty-nine oscillators.</li>
+    <li><b>Modulation section.</b> Four HYPER LFOs, cross-block frequency modulation and per-oscillator modulation depth.</li>
+    <li><b>Effects section.</b> MOD DELAY with two lines and the TIME-1 / TIME-2 controllers, DISTORTION and REVERB.</li>
+    <li><b>Output.</b> VOLUME dial and a protective limiter.</li>
+    <li><b>SARASWATI ENGINE.</b> Call interface to the ULF relay station (Chapter 5).</li>
+    <li><b>LIVE BACKGROUND.</b> Optical telemetry display of the oscillators (paragraph 4-9).</li>
+  </ol>
+  <p>c. The set requires no installation. It operates in any current web browser that supports Web Audio. Sound processing runs in a dedicated audio thread; where that facility is absent the set falls back to an equivalent main-thread processor automatically.</p>
+  <h3>1-3. FRONT PANEL ARRANGEMENT</h3>
+  <p>The panel is arranged in three ranks: the header (call, volume, display, information), the processor rack (modulation, delay, pitch, reverb, distortion, TIME controllers) and the oscillator bar. Index numbers in figure 1-1 are used in Chapter 3.</p>
+  <figure>
+    <svg class="dwg" viewBox="0 0 760 500" role="img" aria-label="Front panel arrangement">
+      <rect class="frame" x="8" y="8" width="744" height="484"/><rect class="th" x="22" y="22" width="716" height="456"/>
+      <!-- header -->
+      <rect class="box" x="70" y="56" width="620" height="44"/>
+      <text x="84" y="83" class="b" style="font-size:14px">SARASWATI-1</text>
+      <rect class="ln" x="270" y="66" width="150" height="24" rx="12"/><text x="345" y="82" text-anchor="middle" class="s">CALL SARASWATI</text>
+      <circle cx="450" cy="78" r="14" fill="none" stroke="#1d1b17" stroke-width="4"/><text x="450" y="82" text-anchor="middle" class="s">100</text>
+      <rect class="ln" x="560" y="71" width="26" height="14" rx="7"/><circle class="ln" cx="567" cy="78" r="4"/>
+      <circle class="ln" cx="670" cy="78" r="9"/><text x="670" y="82" text-anchor="middle" class="s">i</text>
+      <!-- rank 1 -->
+      <rect class="box" x="70" y="108" width="300" height="118"/><text x="76" y="121" class="s">HYPER LFO</text>
+      <g class="ln"><circle cx="107" cy="148" r="8"/><circle cx="107" cy="176" r="8"/><circle cx="182" cy="148" r="8"/><circle cx="182" cy="176" r="8"/><circle cx="257" cy="148" r="8"/><circle cx="257" cy="176" r="8"/><circle cx="332" cy="148" r="8"/><circle cx="332" cy="176" r="8"/>
+      <rect x="92" y="196" width="30" height="10"/><rect x="167" y="196" width="30" height="10"/><rect x="242" y="196" width="30" height="10"/><rect x="317" y="196" width="30" height="10"/></g>
+      <rect class="box" x="378" y="108" width="212" height="118"/><text x="384" y="121" class="s">MOD DELAY</text>
+      <g class="ln"><circle cx="402" cy="152" r="10"/><circle cx="432" cy="152" r="10"/><circle cx="460" cy="152" r="7"/><circle cx="484" cy="152" r="7"/><circle cx="508" cy="152" r="7"/><rect x="394" y="182" width="128" height="12"/><line x1="535" y1="132" x2="535" y2="210"/></g>
+      <circle cx="562" cy="164" r="11" fill="url(#hatch)" stroke="#1d1b17" stroke-width="1.4"/>
+      <rect class="box" x="598" y="108" width="92" height="118"/><text x="604" y="121" class="s">PITCH</text>
+      <g class="ln"><circle cx="626" cy="167" r="10"/><circle cx="662" cy="167" r="10"/></g>
+      <!-- rank 2 -->
+      <rect class="box" x="70" y="234" width="210" height="96"/><text x="76" y="247" class="s">REVERB</text>
+      <g class="ln"><circle cx="100" cy="266" r="7"/><circle cx="135" cy="266" r="7"/><circle cx="170" cy="266" r="7"/><circle cx="100" cy="302" r="7"/><circle cx="135" cy="302" r="7"/><circle cx="170" cy="302" r="7"/><line x1="208" y1="252" x2="208" y2="318"/></g>
+      <circle cx="243" cy="284" r="11" fill="url(#hatch)" stroke="#1d1b17" stroke-width="1.4"/>
+      <rect class="box" x="288" y="234" width="82" height="96"/><text x="294" y="247" class="s">DISTORT.</text>
+      <circle class="ln" cx="312" cy="286" r="13"/><circle cx="350" cy="286" r="9" fill="url(#hatch)" stroke="#1d1b17" stroke-width="1.4"/>
+      <rect class="box" x="378" y="234" width="152" height="96"/><text x="384" y="247" class="s">TIME-1</text>
+      <g class="ln"><rect x="392" y="256" width="96" height="11"/><circle cx="500" cy="261" r="3"/><circle cx="400" cy="294" r="7"/><circle cx="430" cy="294" r="7"/><circle cx="460" cy="294" r="7"/><circle cx="490" cy="294" r="7"/></g>
+      <rect class="box" x="538" y="234" width="152" height="96"/><text x="544" y="247" class="s">TIME-2</text>
+      <g class="ln"><rect x="552" y="256" width="96" height="11"/><circle cx="660" cy="261" r="3"/><circle cx="560" cy="294" r="7"/><circle cx="590" cy="294" r="7"/><circle cx="620" cy="294" r="7"/><circle cx="650" cy="294" r="7"/></g>
+      <!-- rank 3 -->
+      <rect class="box" x="70" y="338" width="120" height="100"/><text x="76" y="351" class="s b">1·2</text>
+      <rect class="box" x="198" y="338" width="120" height="100"/><text x="204" y="351" class="s b">3·4</text>
+      <rect class="box" x="326" y="338" width="120" height="100"/><text x="332" y="351" class="s b">5·6</text>
+      <rect class="box" x="454" y="338" width="120" height="100"/><text x="460" y="351" class="s b">7·8</text>
+      <g class="ln"><circle cx="100" cy="384" r="9"/><circle cx="160" cy="384" r="9"/><circle cx="228" cy="384" r="9"/><circle cx="288" cy="384" r="9"/><circle cx="356" cy="384" r="9"/><circle cx="416" cy="384" r="9"/><circle cx="484" cy="384" r="9"/><circle cx="544" cy="384" r="9"/>
+        <rect x="82" y="412" width="36" height="14"/><rect x="142" y="412" width="36" height="14"/><rect x="210" y="412" width="36" height="14"/><rect x="270" y="412" width="36" height="14"/><rect x="338" y="412" width="36" height="14"/><rect x="398" y="412" width="36" height="14"/><rect x="466" y="412" width="36" height="14"/><rect x="526" y="412" width="36" height="14"/></g>
+      <rect x="582" y="338" width="108" height="100" fill="none" stroke="#1d1b17" stroke-width="1.2" stroke-dasharray="5 4"/><text x="636" y="396" text-anchor="middle" style="font-size:26px">+</text>
+      <!-- index numbers -->
+      <g class="th"><line x1="345" y1="49" x2="345" y2="66"/><line x1="450" y1="49" x2="450" y2="62"/><line x1="573" y1="49" x2="573" y2="71"/><line x1="670" y1="49" x2="670" y2="69"/>
+        <line x1="54" y1="167" x2="70" y2="167"/><line x1="54" y1="284" x2="70" y2="284"/><line x1="54" y1="388" x2="70" y2="388"/>
+        <line x1="690" y1="167" x2="706" y2="167"/><line x1="690" y1="284" x2="706" y2="284"/><line x1="690" y1="388" x2="706" y2="388"/></g>
+      <g class="ln" fill="#efe7d1">
+        <circle cx="345" cy="40" r="9"/><circle cx="450" cy="40" r="9"/><circle cx="573" cy="40" r="9"/><circle cx="670" cy="40" r="9"/>
+        <circle cx="45" cy="167" r="9"/><circle cx="45" cy="284" r="9"/><circle cx="45" cy="388" r="9"/>
+        <circle cx="715" cy="167" r="9"/><circle cx="715" cy="284" r="9"/><circle cx="715" cy="388" r="9"/>
+        <circle cx="574" cy="122" r="9"/><circle cx="357" cy="249" r="9"/><circle cx="515" cy="318" r="9"/></g>
+      <g class="s b" text-anchor="middle"><text x="345" y="44">1</text><text x="450" y="44">2</text><text x="573" y="44">3</text><text x="670" y="44">4</text>
+        <text x="45" y="171">5</text><text x="574" y="126">6</text><text x="715" y="171">7</text><text x="45" y="288">8</text><text x="357" y="253">9</text>
+        <text x="515" y="322">10</text><text x="715" y="288">11</text><text x="45" y="392">12</text><text x="715" y="392">13</text></g>
+      <!-- title block -->
+      <rect class="box" x="520" y="446" width="218" height="32"/><line class="th" x1="520" y1="462" x2="738" y2="462"/>
+      <text x="528" y="458" class="s b">SRW-1 · FRONT PANEL ARRANGEMENT</text><text x="528" y="474" class="s">DWG SRW-1-001 · SCALE NONE</text>
+    </svg>
+    <figcaption>Figure 1-1. Front panel arrangement</figcaption>
+  </figure>
+  <table><tr><th>INDEX</th><th>ITEM</th><th>INDEX</th><th>ITEM</th></tr>
+    <tr><td>1</td><td>CALL SARASWATI button</td><td>8</td><td>REVERB</td></tr>
+    <tr><td>2</td><td>VOLUME dial</td><td>9</td><td>DISTORTION</td></tr>
+    <tr><td>3</td><td>LIVE BACKGROUND switch</td><td>10</td><td>TIME-1 controller</td></tr>
+    <tr><td>4</td><td>Information (i) and MANUAL</td><td>11</td><td>TIME-2 controller</td></tr>
+    <tr><td>5</td><td>HYPER LFO (four units)</td><td>12</td><td>Oscillator block (two OSC)</td></tr>
+    <tr><td>6</td><td>MOD DELAY</td><td>13</td><td>Add oscillators (+)</td></tr>
+    <tr><td>7</td><td>PITCH</td><td></td><td>Hatched knobs: MIX controls (always right-hand)</td></tr></table>
+  <div class="foot"><span>1-1</span><span>CHANGE 1</span></div>
+</section>
+
+<!-- ============================================================ CHAPTER 2 -->
+<section class="sheet">
+  <div class="run"><span>TM 69-5895-SRW-1-10</span><span>CHAPTER 2</span></div>
+  <h2>CHAPTER 2</h2><div class="sub">FUNCTIONAL DESCRIPTION</div>
+  <h3>2-1. SIGNAL PATH</h3>
+  <p>a. Each oscillator produces a band-limited pulse and a triangle. The two oscillators of a block are combined in the <span class="k">BLOCK MIXER</span>, where <span class="k">RING</span> can turn their sum into ring modulation (paragraph 2-2).</p>
+  <p>b. The <span class="k">SEND MATRIX</span> routes every oscillator individually. With <span class="k">T1</span> lit, the oscillator feeds delay line 1, whose time is <span class="k">TIME-1</span>. With <span class="k">T2</span> lit, it feeds line 2 (<span class="k">TIME-2</span>). An oscillator with both sends dark bypasses the delay entirely and is not affected by the delay <span class="k">MIX</span>.</p>
+  <p>c. Delay output and dry signal are summed, then pass <span class="k">DISTORTION</span>, <span class="k">VOLUME</span>, <span class="k">REVERB</span>, <span class="k">SOFTNESS</span> and the limiter to the left and right outputs. When more than eight oscillators sound at once, the bus is lowered by 1/√(n/8) so the mix stays in range; up to eight oscillators the level is exactly that of the original circuit.</p>
+  <figure>
+    <svg class="dwg" viewBox="0 0 760 440" role="img" aria-label="Functional block diagram">
+      <rect class="frame" x="8" y="8" width="744" height="424"/>
+      <rect class="box" x="40" y="40" width="120" height="36"/><text x="100" y="62" text-anchor="middle" class="b">HYPER LFO ×4</text>
+      <path class="dash" d="M100 76 V131" marker-end="url(#ar)"/><text x="106" y="108" class="s">FM (LFO)</text>
+      <path class="dash" d="M160 58 H440 V110" marker-end="url(#ar)"/><text x="250" y="52" class="s">LFO-1 → DELAY MOD</text>
+      <rect class="box" x="470" y="40" width="100" height="30"/><text x="520" y="59" text-anchor="middle" class="s b">TIME CTRL 1</text>
+      <path class="dash" d="M510 70 V110" marker-end="url(#ar)"/>
+      <path class="ln" d="M700 30 V70 M688 30 L700 14 L712 30 Z"/><line class="th" x1="700" y1="44" x2="686" y2="70"/><line class="th" x1="700" y1="44" x2="714" y2="70"/>
+      <text x="690" y="85" text-anchor="middle" class="s b">SARASWATI ENGINE</text><text x="690" y="97" text-anchor="middle" class="s">ULF ⇄ ALL CONTROLS</text>
+      <rect class="box" x="40" y="133" width="82" height="50"/><rect class="box" x="44" y="139" width="82" height="50"/><rect class="box" x="48" y="145" width="82" height="50"/>
+      <text x="89" y="166" text-anchor="middle" class="b">OSC</text><text x="89" y="182" text-anchor="middle" class="s">1 … 69</text>
+      <path class="ln" d="M130 170 H163" marker-end="url(#ar)"/>
+      <rect class="box" x="165" y="145" width="100" height="50"/><text x="215" y="166" text-anchor="middle" class="b">BLOCK MIXER</text><text x="215" y="182" text-anchor="middle" class="s">RING · COMP</text>
+      <path class="ln" d="M265 170 H298" marker-end="url(#ar)"/>
+      <rect class="box" x="300" y="125" width="80" height="90"/><text x="340" y="160" text-anchor="middle" class="b">SEND</text><text x="340" y="175" text-anchor="middle" class="b">MATRIX</text><text x="340" y="193" text-anchor="middle" class="s">T1 · T2</text>
+      <path class="ln" d="M380 140 L418 130" marker-end="url(#ar)"/><path class="ln" d="M380 200 L418 210" marker-end="url(#ar)"/>
+      <rect class="box" x="420" y="112" width="110" height="36"/><text x="475" y="134" text-anchor="middle" class="s b">DELAY LINE 1</text>
+      <rect class="box" x="420" y="192" width="110" height="36"/><text x="475" y="214" text-anchor="middle" class="s b">DELAY LINE 2</text>
+      <rect class="box" x="420" y="250" width="110" height="28"/><text x="475" y="268" text-anchor="middle" class="s b">TIME CTRL 2</text>
+      <path class="dash" d="M475 250 V231" marker-end="url(#ar)"/>
+      <path class="ln" d="M530 130 L588 162" marker-end="url(#ar)"/><path class="ln" d="M530 210 L588 178" marker-end="url(#ar)"/>
+      <circle class="box" cx="600" cy="170" r="14"/><text x="600" y="175" text-anchor="middle" class="b" style="font-size:14px">Σ</text><text x="586" y="150" class="s">MIX</text>
+      <path class="ln" d="M340 215 V292 H600 V187" marker-end="url(#ar)"/>
+      <text x="352" y="308" class="s">DRY · BYPASS (OSC WITH T1 AND T2 DARK)</text>
+      <path class="dash" d="M215 195 V232 H89 V198" marker-end="url(#ar)"/><text x="98" y="248" class="s">⇄ CROSS FM (PARTNER BLOCK)</text>
+      <path class="ln" d="M614 170 H630 V122 H643" marker-end="url(#ar)"/>
+      <rect class="box" x="645" y="105" width="88" height="34"/><text x="689" y="126" text-anchor="middle" class="s b">DISTORTION</text>
+      <path class="ln" d="M689 139 V158" marker-end="url(#ar)"/>
+      <rect class="box" x="645" y="160" width="88" height="34"/><text x="689" y="181" text-anchor="middle" class="s b">VOLUME</text>
+      <path class="ln" d="M689 194 V213" marker-end="url(#ar)"/>
+      <rect class="box" x="645" y="215" width="88" height="34"/><text x="689" y="236" text-anchor="middle" class="s b">REVERB</text>
+      <path class="ln" d="M689 249 V268" marker-end="url(#ar)"/>
+      <rect class="box" x="645" y="270" width="88" height="34"/><text x="689" y="291" text-anchor="middle" class="s b">LIMITER</text>
+      <path class="ln" d="M689 304 V322 M668 322 H712 M668 322 V334 M712 322 V334"/>
+      <circle class="ln" cx="668" cy="342" r="8"/><circle class="ln" cx="712" cy="342" r="8"/><circle cx="668" cy="342" r="2.5" fill="#1d1b17"/><circle cx="712" cy="342" r="2.5" fill="#1d1b17"/>
+      <text x="668" y="366" text-anchor="middle" class="s b">L</text><text x="712" y="366" text-anchor="middle" class="s b">R</text>
+      <line class="ln" x1="40" y1="352" x2="74" y2="352"/><text x="82" y="356" class="s">AUDIO</text>
+      <line class="dash" x1="40" y1="372" x2="74" y2="372"/><text x="82" y="376" class="s">MODULATION / CONTROL</text>
+      <rect class="box" x="400" y="390" width="338" height="34"/><line class="th" x1="400" y1="407" x2="738" y2="407"/>
+      <text x="408" y="403" class="s b">SRW-1 · FUNCTIONAL BLOCK DIAGRAM, SIGNAL PATH</text><text x="408" y="420" class="s">DWG SRW-1-002 · SHEET 1 OF 1</text>
+    </svg>
+    <figcaption>Figure 2-1. Functional block diagram</figcaption>
+  </figure>
+  <div class="foot"><span>2-1</span><span>CHANGE 1</span></div>
+</section>
+
+<section class="sheet">
+  <div class="run"><span>TM 69-5895-SRW-1-10</span><span>CHAPTER 2</span></div>
+  <h3>2-2. OSCILLATOR BLOCK</h3>
+  <p>a. <b>Oscillator core.</b> A phase accumulator drives a band-limited (polyBLEP) pulse of 53 % duty. The triangle is obtained by integrating that pulse in a one-pole low-pass set to a quarter of the oscillator frequency. <span class="k">TRI ➔ SQR</span> crossfades between the two and acts on both oscillators of the block.</p>
+  <p>b. <b>Envelope.</b> The key pad opens a ramp whose times are set by <span class="k">FAST</span>: lit, 100 ms attack and 100 ms release; dark, 200 ms attack and an 8-second release. The ramp is squared before it reaches the amplifier. <span class="k">HOLD</span> adds a standing level so that an oscillator can sound without its key. Every movement of the envelope carries a faint "thump", inherited from the original circuit.</p>
+  <p>c. <b>Solo gate.</b> When any <span class="k">S</span> is lit, all oscillators without a lit <span class="k">S</span> are muted within 3 ms. Their keys remain as they were.</p>
+  <p>d. <b>Ring mixer.</b> <span class="k">RING</span> crossfades the block from the sum A + B to the ring product 2·A·B. A compressor follows whose threshold tracks the un-ringed level and whose ratio grows with <span class="k">RING</span>. Mixing ring modulation in can therefore never make the block louder than it was before. Ring modulation multiplies: at full <span class="k">RING</span> both oscillators of the block must sound.</p>
+  <figure>
+    <svg class="dwg" viewBox="0 0 760 360" role="img" aria-label="Oscillator block schematic">
+      <rect class="frame" x="8" y="8" width="744" height="344"/>
+      <g>
+        <text x="28" y="66" class="s b">CHANNEL A · OSC n</text>
+        <path class="ln" d="M22 100 H53" marker-end="url(#ar)"/><text x="24" y="92" class="s">FM</text>
+        <rect class="box" x="55" y="82" width="90" height="36"/><text x="100" y="98" text-anchor="middle" class="s b">PHASE</text><text x="100" y="111" text-anchor="middle" class="s">ACC</text>
+        <path class="ln" d="M145 100 H168" marker-end="url(#ar)"/>
+        <rect class="box" x="170" y="82" width="90" height="36"/><text x="215" y="98" text-anchor="middle" class="s b">POLYBLEP</text><text x="215" y="111" text-anchor="middle" class="s">PULSE 53%</text>
+        <path class="ln" d="M260 100 H275 V76 H395 V92 H408" marker-end="url(#ar)"/><circle cx="275" cy="100" r="2.6" fill="#1d1b17"/><text x="300" y="71" class="s">SQR ×0.59</text>
+        <path class="ln" d="M275 100 V124 H288" marker-end="url(#ar)"/>
+        <rect class="box" x="290" y="112" width="85" height="24"/><text x="332" y="128" text-anchor="middle" class="s b">∫ LP f/4</text>
+        <path class="ln" d="M375 124 H395 V108 H408" marker-end="url(#ar)"/><text x="378" y="146" class="s">TRI ×2.65</text>
+        <rect class="box" x="410" y="82" width="70" height="36"/><text x="445" y="98" text-anchor="middle" class="s b">TRI➔SQR</text><text x="445" y="111" text-anchor="middle" class="s">XFADE</text>
+        <path class="dash" d="M445 50 V80" marker-end="url(#ar)"/><text x="451" y="56" class="s">BLOCK KNOB</text>
+        <path class="ln" d="M480 100 H498"/><path class="ln" d="M500 84 V116 L530 100 Z"/>
+        <path class="dash" d="M515 154 V110" marker-end="url(#ar)"/>
+        <rect class="box" x="470" y="154" width="92" height="22"/><text x="516" y="169" text-anchor="middle" class="s b">ENV · HOLD</text>
+        <path class="ln" d="M530 100 H546"/><circle class="ln" cx="549" cy="100" r="3"/><circle class="ln" cx="577" cy="100" r="3"/><line class="ln" x1="551" y1="99" x2="575" y2="92"/>
+        <text x="563" y="84" text-anchor="middle" class="s b">S</text>
+        <path class="ln" d="M580 100 H605 V155 H618" marker-end="url(#ar)"/>
+      </g>
+      <g transform="translate(0 150)">
+        <text x="28" y="66" class="s b">CHANNEL B · OSC n+1</text>
+        <path class="ln" d="M22 100 H53" marker-end="url(#ar)"/><text x="24" y="92" class="s">FM</text>
+        <rect class="box" x="55" y="82" width="90" height="36"/><text x="100" y="98" text-anchor="middle" class="s b">PHASE</text><text x="100" y="111" text-anchor="middle" class="s">ACC</text>
+        <path class="ln" d="M145 100 H168" marker-end="url(#ar)"/>
+        <rect class="box" x="170" y="82" width="90" height="36"/><text x="215" y="98" text-anchor="middle" class="s b">POLYBLEP</text><text x="215" y="111" text-anchor="middle" class="s">PULSE 53%</text>
+        <path class="ln" d="M260 100 H275 V76 H395 V92 H408" marker-end="url(#ar)"/><circle cx="275" cy="100" r="2.6" fill="#1d1b17"/><text x="300" y="71" class="s">SQR ×0.59</text>
+        <path class="ln" d="M275 100 V124 H288" marker-end="url(#ar)"/>
+        <rect class="box" x="290" y="112" width="85" height="24"/><text x="332" y="128" text-anchor="middle" class="s b">∫ LP f/4</text>
+        <path class="ln" d="M375 124 H395 V108 H408" marker-end="url(#ar)"/><text x="378" y="146" class="s">TRI ×2.65</text>
+        <rect class="box" x="410" y="82" width="70" height="36"/><text x="445" y="98" text-anchor="middle" class="s b">TRI➔SQR</text><text x="445" y="111" text-anchor="middle" class="s">XFADE</text>
+        <path class="ln" d="M480 100 H498"/><path class="ln" d="M500 84 V116 L530 100 Z"/>
+        <path class="dash" d="M515 154 V110" marker-end="url(#ar)"/>
+        <rect class="box" x="470" y="154" width="92" height="22"/><text x="516" y="169" text-anchor="middle" class="s b">ENV · HOLD</text>
+        <path class="ln" d="M530 100 H546"/><circle class="ln" cx="549" cy="100" r="3"/><circle class="ln" cx="577" cy="100" r="3"/><line class="ln" x1="551" y1="99" x2="575" y2="92"/>
+        <text x="563" y="84" text-anchor="middle" class="s b">S</text>
+        <path class="ln" d="M580 100 H605 V45 H618" marker-end="url(#ar)"/>
+      </g>
+      <rect class="box" x="620" y="140" width="115" height="70"/>
+      <circle class="ln" cx="645" cy="160" r="10"/><text x="645" y="164" text-anchor="middle" class="s b">Σ</text>
+      <circle class="ln" cx="645" cy="190" r="10"/><text x="645" y="194" text-anchor="middle" class="s b">×</text>
+      <text x="662" y="164" class="s">A+B</text><text x="662" y="194" class="s">2·A·B</text>
+      <text x="677" y="134" text-anchor="middle" class="s b">RING</text>
+      <path class="ln" d="M677 210 V236" marker-end="url(#ar)"/>
+      <rect class="box" x="640" y="238" width="75" height="26"/><text x="677" y="255" text-anchor="middle" class="s b">COMP</text>
+      <path class="ln" d="M677 264 V286" marker-end="url(#ar)"/>
+      <text x="677" y="300" text-anchor="middle" class="s">TO SEND</text><text x="677" y="312" text-anchor="middle" class="s">MATRIX</text>
+      <rect class="box" x="22" y="318" width="300" height="28"/><text x="30" y="336" class="s b">SRW-1 · OSCILLATOR BLOCK · DWG SRW-1-003</text>
+    </svg>
+    <figcaption>Figure 2-2. Oscillator block, schematic</figcaption>
+  </figure>
+  <h3>2-3. MODULATION</h3>
+  <p>a. The instantaneous frequency of each oscillator is f·(1 + MOD·SOURCE). The block <span class="k">SOURCE</span> selector chooses what SOURCE is:</p>
+  <ol>
+    <li><span class="k">⇄</span> (labelled with the partner block, e.g. ⇄ 3·4) — the output of the partner block frequency-modulates both oscillators. Blocks 1·2 and 3·4 are partners, as are 5·6 and 7·8. Added blocks pair with their neighbour.</li>
+    <li><span class="k">OFF</span> — no deliberate modulation. A trace of 0.1 % leakage remains, as in the original circuit; it keeps the drone alive.</li>
+    <li><span class="k">LFO</span> — each oscillator follows the HYPER LFO chosen with its own <span class="k">LFO 1–4</span> selector.</li>
+  </ol>
+  <p>b. <b>HYPER LFO.</b> Two square waves, <span class="k">F-A</span> and <span class="k">F-B</span>. <span class="k">AND</span> multiplies them (the output flips whenever either flips), <span class="k">OR</span> averages them (three-level output). <span class="k">LINK</span> lets wave A push the rate of wave B by ±50 %. LFO 1 additionally drives the delay modulation when the delay <span class="k">SOURCE</span> is <span class="k">LFO-1</span>.</p>
+  <div class="foot"><span>2-2</span><span>CHANGE 1</span></div>
+</section>
+
+<section class="sheet">
+  <div class="run"><span>TM 69-5895-SRW-1-10</span><span>CHAPTER 2 · CHAPTER 3</span></div>
+  <h3>2-4. EFFECTS</h3>
+  <p>a. <b>MOD DELAY.</b> Two delay lines. Each has a time (<span class="k">TIME-1</span>, <span class="k">TIME-2</span>, 1.45 ms to 5.94 s), a modulation depth (<span class="k">MOD-1</span>, <span class="k">MOD-2</span>, up to ±10 ms) and a shared <span class="k">FEEDBACK</span> (×0 to ×4). Each line contains a compressor (−12 dB, 5:1) and a gate below −60 dB, so high feedback saturates instead of exploding. The modulation <span class="k">SOURCE</span> is <span class="k">SELF</span> (the line's own input, low-passed at 689 Hz — audio-rate self-modulation), <span class="k">OFF</span>, or <span class="k">LFO-1</span> with <span class="k">WAVE</span> <span class="k">TRI</span> or <span class="k">SQR</span>. <span class="k">MIX</span> sets dry/wet for the oscillators that send; bypassed oscillators remain dry.</p>
+  <p>b. <b>TIME-1 / TIME-2 controllers.</b> They act on the TIME value of their delay line only, never on the oscillators themselves. See paragraph 4-7.</p>
+  <p>c. <b>DISTORTION.</b> <span class="k">DRIVE</span> (+6 to +30 dB) feeds an asymmetric soft clipper whose positive peaks are pushed harder than the negative ones. <span class="k">MIX</span> blends it with the clean signal.</p>
+  <p>d. <b>REVERB.</b> A room of eight comb filters and four all-pass filters per side, laid out after the classic ReaVerberate control set: <span class="k">ROOM</span>, <span class="k">DAMP</span>, <span class="k">WIDTH</span>, <span class="k">PRE-DELAY</span> (0–500 ms), <span class="k">LOW-PASS</span> (200 Hz–20 kHz) and <span class="k">HIGH-PASS</span> (20 Hz–2 kHz) on the reverberant signal, and <span class="k">MIX</span>, an equal-power crossfade that keeps loudness steady from fully dry to fully wet.</p>
+  <div class="box"><span class="t">NOTE</span><p>Every effect's <span class="k">MIX</span> knob sits at the right-hand edge of its panel and is marked by a colour-shifting cap. On the panel, a control that "has no effect" is usually waiting for a <span class="k">MIX</span>.</p></div>
+
+  <h2 style="margin-top:34px">CHAPTER 3</h2><div class="sub">CONTROLS AND INDICATORS</div>
+  <table><caption>Table 3-1. Header</caption>
+    <tr><th>KEY</th><th>CONTROL OR INDICATOR</th><th>FUNCTION</th></tr>
+    <tr><td>1</td><td class="k">CALL SARASWATI</td><td>Places, cancels or ends a call to Station SARASWATI (Chapter 5). The legend reports the state of the link.</td></tr>
+    <tr><td>2</td><td class="k">VOLUME</td><td>Output level, 0–100, shown inside the ring. The station never touches it.</td></tr>
+    <tr><td>2</td><td class="k">SOFTNESS</td><td>Master tone guard, 0–100 (85 at switch-on). A gentle low-pass plus a compressor that acts only on the harsh 2–8 kHz region: ordinary tones pass almost untouched, loud screeching or fizzing highs are pressed down hard. 0 bypasses it. The station never touches it.</td></tr>
+    <tr><td>3</td><td class="k">LIVE BACKGROUND</td><td>Switches between the static acid backdrop and the live optical telemetry (paragraph 4-9).</td></tr>
+    <tr><td>4</td><td class="k">i</td><td>Opens the information panel, which holds the <span class="k">MANUAL</span> button.</td></tr></table>
+  <table><caption>Table 3-2. HYPER LFO (four identical units)</caption>
+    <tr><th>KEY</th><th>CONTROL OR INDICATOR</th><th>FUNCTION</th></tr>
+    <tr><td>5</td><td>Lamp</td><td>Lit while the LFO output is high.</td></tr>
+    <tr><td>5</td><td class="k">F-A / F-B</td><td>Rate of square A / B, 0.107 Hz to 165 Hz.</td></tr>
+    <tr><td>5</td><td class="k">AND / OR</td><td>Combination of the two squares (paragraph 2-3b).</td></tr>
+    <tr><td>5</td><td class="k">LINK</td><td>A modulates the rate of B.</td></tr></table>
+  <table><caption>Table 3-3. MOD DELAY and PITCH</caption>
+    <tr><th>KEY</th><th>CONTROL OR INDICATOR</th><th>FUNCTION</th></tr>
+    <tr><td>6</td><td class="k">TIME-1 / TIME-2</td><td>Delay time of line 1 / 2. A pink marker on the ring shows the time as currently moved by the TIME controller.</td></tr>
+    <tr><td>6</td><td class="k">MOD-1 / MOD-2</td><td>Depth of delay-time modulation, ±0 to ±10 ms.</td></tr>
+    <tr><td>6</td><td class="k">FEEDBACK</td><td>Regeneration of both lines, ×0 to ×4. Zero at switch-on.</td></tr>
+    <tr><td>6</td><td class="k">SOURCE / WAVE</td><td>Delay modulation source: SELF, OFF, LFO-1 (TRI or SQR).</td></tr>
+    <tr><td>6</td><td class="k">MIX</td><td>Dry/wet for sending oscillators.</td></tr>
+    <tr><td>7</td><td class="k">OSC 1–4 / OSC 5–8</td><td>Pitch multiplier for oscillators 1–4 and 5–8, ×0.01 to ×2.00. Added oscillators are not affected.</td></tr></table>
+  <div class="foot"><span>2-3</span><span>CHANGE 1</span></div>
+</section>
+
+<section class="sheet">
+  <div class="run"><span>TM 69-5895-SRW-1-10</span><span>CHAPTER 3</span></div>
+  <table><caption>Table 3-4. REVERB and DISTORTION</caption>
+    <tr><th>KEY</th><th>CONTROL</th><th>FUNCTION</th></tr>
+    <tr><td>8</td><td class="k">ROOM · DAMP · WIDTH</td><td>Size of the room, absorption of high frequencies in the tail, stereo spread.</td></tr>
+    <tr><td>8</td><td class="k">PRE-DELAY</td><td>Gap before the reverberation begins, 0–500 ms.</td></tr>
+    <tr><td>8</td><td class="k">LOW-PASS · HIGH-PASS</td><td>Filters on the reverberant signal only.</td></tr>
+    <tr><td>8</td><td class="k">MIX</td><td>Dry ↔ wet, equal power.</td></tr>
+    <tr><td>9</td><td class="k">DRIVE</td><td>Gain into the clipper, +6 to +30 dB.</td></tr>
+    <tr><td>9</td><td class="k">MIX</td><td>Clean ↔ distorted.</td></tr></table>
+  <table><caption>Table 3-5. TIME-1 and TIME-2 controllers</caption>
+    <tr><th>KEY</th><th>CONTROL OR INDICATOR</th><th>FUNCTION</th></tr>
+    <tr><td>10, 11</td><td class="k">RANDOM / SAW / REV</td><td>Mode of movement applied to the TIME value of the delay line.</td></tr>
+    <tr><td>10, 11</td><td>Lamp</td><td>Flashes at every random jump.</td></tr>
+    <tr><td>10, 11</td><td class="k">SPEED</td><td>RANDOM: interval between chances. SAW/REV: period of the sweep. 10 ms to 60 s; clockwise is faster.</td></tr>
+    <tr><td>10, 11</td><td class="k">SPREAD</td><td>Range of movement around the TIME knob, ±0 to ±64 steps of the TIME scale.</td></tr>
+    <tr><td>10, 11</td><td class="k">CHANCE</td><td>RANDOM only: probability of a jump at each interval, 0–100 %.</td></tr>
+    <tr><td>10, 11</td><td class="k">LENGTH</td><td>RANDOM only: how long a jump is held, 10 ms to 10 s.</td></tr></table>
+  <div class="box"><span class="t">NOTE</span><p>In SAW and REV the <span class="k">CHANCE</span> and <span class="k">LENGTH</span> knobs are darkened. They keep their settings but do nothing until RANDOM is selected again.</p></div>
+  <table><caption>Table 3-6. Oscillator block</caption>
+    <tr><th>KEY</th><th>CONTROL</th><th>FUNCTION</th></tr>
+    <tr><td>12</td><td>Name plate (1·2 …)</td><td>Oscillator numbers of the block. Added blocks carry a remove button (×) on the last block.</td></tr>
+    <tr><td>12</td><td class="k">⇄ · OFF · LFO</td><td>Modulation source for the block (paragraph 2-3).</td></tr>
+    <tr><td>12</td><td class="k">FAST</td><td>Envelope speed: lit 100/100 ms, dark 200 ms / 8 s.</td></tr>
+    <tr><td>12</td><td class="k">TRI ➔ SQR</td><td>Waveform of both oscillators.</td></tr>
+    <tr><td>12</td><td class="k">RING</td><td>Sum ↔ ring modulation, with progressive compression.</td></tr></table>
+  <table><caption>Table 3-7. Oscillator (two per block)</caption>
+    <tr><th>KEY</th><th>CONTROL OR INDICATOR</th><th>FUNCTION</th></tr>
+    <tr><td>12</td><td>Frequency readout</td><td>Live frequency in Hz including all modulation. Exact to ±0.5 cent when unmodulated.</td></tr>
+    <tr><td>12</td><td>Note readout</td><td>Nearest note and deviation in cents.</td></tr>
+    <tr><td>12</td><td class="k">OSC n</td><td>Tuning knob of the oscillator (ranges in Appendix A).</td></tr>
+    <tr><td>12</td><td class="k">MOD · HOLD</td><td>Frequency-modulation depth (0 to 2); standing level without the key.</td></tr>
+    <tr><td>12</td><td class="k">LFO 1 2 3 4</td><td>HYPER LFO followed when the block SOURCE is LFO.</td></tr>
+    <tr><td>12</td><td class="k">T1 · T2</td><td>Send to delay line 1 / 2. Both dark: bypass. Lit at switch-on.</td></tr>
+    <tr><td>12</td><td class="k">S</td><td>Solo. Mutes every oscillator without a lit S.</td></tr>
+    <tr><td>12</td><td>Key pad</td><td>Latching key. Glows in the colour of the oscillator's pitch.</td></tr>
+    <tr><td>13</td><td class="k">+</td><td>Adds two oscillators, up to 68, then a single OSC 69.</td></tr></table>
+  <div class="foot"><span>3-1</span><span>CHANGE 1</span></div>
+</section>
+
+<!-- ============================================================ CHAPTER 4 -->
+<section class="sheet">
+  <div class="run"><span>TM 69-5895-SRW-1-10</span><span>CHAPTER 4</span></div>
+  <h2>CHAPTER 4</h2><div class="sub">OPERATING PROCEDURES</div>
+  <h3>4-1. STARTING THE SET</h3>
+  <ol><li>Open the set. The panel appears behind the entry screen.</li>
+    <li>Press <span class="k">ENTER</span>. Browsers admit sound only after a deliberate act by the operator; this is that act.</li>
+    <li>Set <span class="k">VOLUME</span> to about 60 before pressing any key.</li></ol>
+  <h3>4-2. ESTABLISHING A DRONE</h3>
+  <ol><li>Press key pads <b>1</b> and <b>2</b>. They latch and glow.</li>
+    <li>Turn <span class="k">OSC 1</span> and <span class="k">OSC 2</span> while reading the frequency and note readouts. Intervals of a fifth or an octave give the classic drone; small offsets give beating.</li>
+    <li>Raise <span class="k">TRI ➔ SQR</span> for a brighter, reedier tone.</li>
+    <li>To sustain without keys, raise <span class="k">HOLD</span> and release the key pad.</li></ol>
+  <h3>4-3. CROSS-MODULATION</h3>
+  <ol><li>Sound both blocks 1·2 and 3·4.</li><li>Set the block <span class="k">SOURCE</span> of 1·2 to <span class="k">⇄ 3·4</span>.</li>
+    <li>Raise <span class="k">MOD</span> on OSC 1 and OSC 2 slowly. The partner block now bends their pitch at audio rate: growl, then metal, then noise.</li></ol>
+  <h3>4-4. LFO PULSATION</h3>
+  <ol><li>Set the block <span class="k">SOURCE</span> to <span class="k">LFO</span>.</li><li>Select an LFO for each oscillator with <span class="k">LFO 1–4</span>; raise <span class="k">MOD</span>.</li>
+    <li>Shape the rhythm with <span class="k">F-A</span>, <span class="k">F-B</span>, <span class="k">AND/OR</span> and <span class="k">LINK</span>. The LFO lamp confirms activity.</li></ol>
+  <h3>4-5. RING MIXING</h3>
+  <ol><li>Sound both oscillators of the block.</li><li>Raise <span class="k">RING</span>. Sum and difference tones appear; the compressor holds the level (paragraph 2-2d).</li></ol>
+  <h3>4-6. DELAY SENDS</h3>
+  <ol><li>Raise the delay <span class="k">MIX</span>. At switch-on every oscillator sends to both lines.</li>
+    <li>Darken <span class="k">T1</span> and/or <span class="k">T2</span> on oscillators that must stay dry. An oscillator with both dark is untouched by the delay.</li>
+    <li>Raise <span class="k">FEEDBACK</span> gradually.</li></ol>
+  <div class="box warn"><span class="t">CAUTION</span><p>FEEDBACK ABOVE ×1 COMBINED WITH SHORT TIMES AND HIGH DRIVE PRODUCES SELF-OSCILLATION. LOWER VOLUME FIRST.</p></div>
+  <div class="foot"><span>4-1</span><span>CHANGE 1</span></div>
+</section>
+
+<section class="sheet">
+  <div class="run"><span>TM 69-5895-SRW-1-10</span><span>CHAPTER 4</span></div>
+  <h3>4-7. TIME CONTROLLERS</h3>
+  <p>a. <b>RANDOM.</b> At every interval set by <span class="k">SPEED</span>, a jump of the TIME value occurs with the probability set by <span class="k">CHANCE</span>. The jump lands at a random point within ±<span class="k">SPREAD</span> of the TIME knob. It always glides there in 19 ms, passing through every value in between, holds for <span class="k">LENGTH</span>, and glides back. A jump arriving while another is held simply replaces it.</p>
+  <p class="typed" style="text-align:left">Example: TIME-1 at 261 ms, CHANCE 78 %, LENGTH 10 ms, SPEED 50 ms, SPREAD ±28. Every 50 ms there is a 78 % chance that TIME-1 glides to a random point within 28 steps of its knob, stays 10 ms, and glides home.</p>
+  <p>b. <b>SAW / REV.</b> The TIME value is swept continuously, rising (SAW) or falling (REV), with a period equal to <span class="k">SPEED</span> and a range of ±<span class="k">SPREAD</span>. A moving delay time bends the pitch of the echoes, as on a tape machine.</p>
+  <p>c. Only oscillators sending to that line (<span class="k">T1</span> or <span class="k">T2</span> lit) are affected, and only when the delay <span class="k">MIX</span> is up. The controllers never press keys or change the oscillators.</p>
+  <figure>
+    <svg class="dwg" viewBox="0 0 760 330" role="img" aria-label="TIME controller timing diagram">
+      <rect class="frame" x="8" y="8" width="744" height="314"/>
+      <text x="26" y="94" class="b">RANDOM</text><text x="26" y="196" class="b">SAW</text><text x="26" y="284" class="b">REV</text>
+      <line class="th" x1="100" y1="22" x2="100" y2="308"/>
+      <line class="th" x1="110" y1="90" x2="720" y2="90" stroke-dasharray="2 3"/><text x="724" y="86" class="s" text-anchor="end">TIME KNOB</text>
+      <path class="ln" d="M110 90 H130 L140 60 H165 L175 90 H250 L260 118 H285 L295 90 H310 L320 70 H345 L355 90 H430 L440 52 H465 L475 90 H490 L500 112 H525 L535 90 H720"/>
+      <g class="th"><line x1="130" y1="128" x2="130" y2="136"/><line x1="190" y1="128" x2="190" y2="136"/><line x1="250" y1="128" x2="250" y2="136"/><line x1="310" y1="128" x2="310" y2="136"/><line x1="370" y1="128" x2="370" y2="136"/><line x1="430" y1="128" x2="430" y2="136"/><line x1="490" y1="128" x2="490" y2="136"/><line x1="550" y1="128" x2="550" y2="136"/><line x1="610" y1="128" x2="610" y2="136"/><line x1="670" y1="128" x2="670" y2="136"/></g>
+      <g class="s" text-anchor="middle"><text x="190" y="125">×</text><text x="370" y="125">×</text><text x="550" y="125">×</text><text x="610" y="125">×</text><text x="670" y="125">×</text></g>
+      <path class="th" d="M130 140 V146 H190 V140"/><text x="160" y="160" text-anchor="middle" class="s">SPEED</text>
+      <path class="th" d="M140 50 H165" marker-start="url(#ar)" marker-end="url(#ar)"/><text x="153" y="44" text-anchor="middle" class="s">LENGTH</text>
+      <path class="th" d="M181 72 L172 78"/><text x="184" y="72" class="s">19 ms GLIDE</text>
+      <path class="th" d="M600 52 V128" marker-start="url(#ar)" marker-end="url(#ar)"/><text x="608" y="72" class="s">±SPREAD</text>
+      <text x="470" y="160" class="s">× = NO JUMP (CHANCE)</text>
+      <line class="th" x1="110" y1="192" x2="720" y2="192" stroke-dasharray="2 3"/>
+      <path class="ln" d="M110 212 L230 172 V212 L350 172 V212 L470 172 V212 L590 172 V212 L710 172 V212"/>
+      <path class="th" d="M230 226 H350" marker-start="url(#ar)" marker-end="url(#ar)"/><text x="290" y="240" text-anchor="middle" class="s">PERIOD = SPEED</text>
+      <line class="th" x1="110" y1="280" x2="720" y2="280" stroke-dasharray="2 3"/>
+      <path class="ln" d="M110 260 L230 300 V260 L350 300 V260 L470 300 V260 L590 300 V260 L710 300 V260"/>
+    </svg>
+    <figcaption>Figure 4-1. TIME controller, timing diagram (vertical: TIME value; horizontal: time)</figcaption>
+  </figure>
+  <h3>4-8. EXPANDING THE OSCILLATOR BAR</h3>
+  <p>Press <span class="k">+</span> at the end of the bar to add a block of two oscillators. The bar scrolls sideways. After sixty-eight oscillators the button adds a single <b>OSC 69</b>; then it is spent. Added oscillators repeat the tuning ranges of OSC 1–8 in order, are not affected by the PITCH knobs, and pair with their neighbouring block for cross-modulation. The × on the last added block removes it. <span class="k">S</span> solos any oscillator.</p>
+  <h3>4-9. LIVE BACKGROUND</h3>
+  <p>With <span class="k">LIVE BACKGROUND</span> on, the backdrop becomes an optical telemetry display:</p>
+  <ul><li>In silence it is completely black.</li>
+    <li>Each oscillator is a light at its own fixed place; brightness follows its level.</li>
+    <li>Colour follows pitch: low tones magenta and red, through yellow, green and cyan, to violet at the top. Lights mix where they overlap.</li>
+    <li>An oscillator modulated by an LFO pulses with that LFO.</li>
+    <li>Interference: <span class="k">DISTORTION</span> produces colour fringing, grain and pixel crunch; TIME jumps tear the picture; SAW/REV make it ripple; <span class="k">REVERB</span> leaves trails and ghosts.</li></ul>
+  <div class="foot"><span>4-2</span><span>CHANGE 1</span></div>
+</section>
+
+<!-- ============================================================ CHAPTER 5 -->
+<section class="sheet">
+  <div class="run"><span>TM 69-5895-SRW-1-10</span><span>CHAPTER 5</span></div>
+  <div class="stamp" style="top:66px; right:52px; font-size:15px;">EYES ONLY</div>
+  <h2>CHAPTER 5</h2><div class="sub">THE SARASWATI ENGINE</div>
+  <h3>5-1. GENERAL</h3>
+  <p>a. The <span class="k">CALL SARASWATI</span> button is not an automatic player in the ordinary sense. It is the call key of a specialized link to <b>Station SARASWATI</b>, a ULF transceiver server in Mongolia. Its position is withheld: <span class="redact">47°N 96°E SECTOR 9</span>.</p>
+  <p>b. Ultra-low-frequency waves (300 Hz to 3 kHz) travel in the waveguide formed between the surface of the earth and the lower ionosphere. They penetrate ground and water and follow the curvature of the planet, which is why a station in the steppe can be reached from any set. The price of such a channel is a low data rate: the station does not stream sound. It listens, and it commands.</p>
+  <p>c. Once a call is accepted, the set transmits the signal of the current session — the position of every control and the state of every key — on the <b>uplink</b>. Commands return on the <b>downlink</b> and are executed on the panel exactly as an operator would execute them: knobs turn, selectors switch, keys light. The operator can watch every command arrive; controls being moved by the station are outlined in pink.</p>
+  <figure>
+    <svg class="dwg" viewBox="0 0 760 360" role="img" aria-label="ULF link to Station Saraswati">
+      <rect class="frame" x="8" y="8" width="744" height="344"/>
+      <path class="dash" d="M20 120 Q380 60 740 120"/><text x="380" y="80" text-anchor="middle" class="s b">LOWER IONOSPHERE (D-REGION)</text>
+      <path d="M20 300 Q380 250 740 300 L740 344 L20 344 z" fill="url(#ground)"/><path class="ln" d="M20 300 Q380 250 740 300"/>
+      <path class="ln" d="M190 168 q14 -14 28 0 t28 0 t28 0 t28 0 t28 0 t28 0 t28 0 t28 0 t28 0 t28 0 t28 0 t28 0 t28 0 t28 0 t28 0" marker-end="url(#ar)"/>
+      <text x="380" y="146" text-anchor="middle" class="s b">UPLINK · SIGNAL OF THE CURRENT SESSION</text>
+      <path class="ln" d="M610 222 q-14 14 -28 0 t-28 0 t-28 0 t-28 0 t-28 0 t-28 0 t-28 0 t-28 0 t-28 0 t-28 0 t-28 0 t-28 0 t-28 0 t-28 0 t-28 0" marker-end="url(#ar)"/>
+      <text x="380" y="254" text-anchor="middle" class="s b">DOWNLINK · COMMANDS</text>
+      <text x="380" y="200" text-anchor="middle" class="s">EARTH–IONOSPHERE WAVEGUIDE · ULF 300 Hz – 3 kHz</text>
+      <rect class="box" x="44" y="226" width="96" height="56"/><rect class="th" x="52" y="232" width="80" height="38"/>
+      <text x="92" y="255" text-anchor="middle" class="s b">SRW-1</text><line class="ln" x1="80" y1="282" x2="104" y2="282"/><line class="ln" x1="92" y1="282" x2="92" y2="292"/>
+      <line class="ln" x1="160" y1="290" x2="160" y2="186"/><path class="ln" d="M150 186 L160 168 L170 186 z"/>
+      <line class="th" x1="160" y1="210" x2="146" y2="290"/><line class="th" x1="160" y1="210" x2="174" y2="290"/>
+      <text x="92" y="216" text-anchor="middle" class="s">OPERATOR</text>
+      <path class="ln" d="M640 284 L640 132 M632 284 L640 132 L648 284 M633 260 L647 238 M633 238 L647 216 M634 216 L646 194 M634 194 L646 172 M635 172 L645 152"/>
+      <circle class="ln" cx="640" cy="126" r="6"/><line class="th" x1="640" y1="150" x2="604" y2="284"/><line class="th" x1="640" y1="150" x2="676" y2="284"/>
+      <path class="box" d="M664 284 V256 L692 240 L720 256 V284 Z"/><rect class="th" x="684" y="266" width="14" height="18"/>
+      <text x="626" y="121" text-anchor="end" class="s b">STATION SARASWATI</text><text x="626" y="133" text-anchor="end" class="s">MONGOLIA</text>
+      <rect x="560" y="316" width="96" height="11" fill="#141210"/><text x="552" y="325" text-anchor="end" class="s">POSITION</text>
+      <rect class="box" x="22" y="314" width="250" height="28"/><text x="30" y="332" class="s b">SRW-1 · ULF LINK · DWG SRW-1-005</text>
+    </svg>
+    <figcaption>Figure 5-1. ULF link between the set and Station SARASWATI</figcaption>
+  </figure>
+  <table class="spec"><caption>Table 5-1. Link data</caption>
+    <tr><th>ITEM</th><th>VALUE</th></tr>
+    <tr><td>Station</td><td>SARASWATI · call sign SRW</td></tr>
+    <tr><td>Band</td><td>ULF, earth–ionosphere waveguide</td></tr>
+    <tr><td>Uplink</td><td>Signal of the current session</td></tr>
+    <tr><td>Downlink</td><td>Command stream</td></tr>
+    <tr><td>Handshake</td><td>5 s average</td></tr>
+    <tr><td>Refusal rate</td><td>11% average</td></tr>
+    <tr><td>Channel synchronisation</td><td>2 s average</td></tr></table>
+      <h3>5-2. STATION ETIQUETTE</h3>
+  <ol><li>Do not argue with a refusal. The station answers with silence for reasons it does not transmit.</li>
+    <li>Do not end a session in the middle of a press sequence unless necessary; the pressed oscillator is released either way.</li>
+    <li>The operator may play alongside the station at any time. A control the operator grasps is released by the station immediately.</li></ol>
+  <div class="foot"><span>5-1</span><span>CHANGE 1</span></div>
+</section>
+
+<!-- ============================================================ CHAPTER 6 + APPENDICES -->
+<section class="sheet">
+  <div class="run"><span>TM 69-5895-SRW-1-10</span><span>CHAPTER 6 · APPENDIX A</span></div>
+  <h2>CHAPTER 6</h2><div class="sub">TROUBLESHOOTING</div>
+  <table class="trouble"><caption>Table 6-1. Troubleshooting</caption>
+    <tr><th>MALFUNCTION</th><th>PROBABLE CAUSE</th><th>CORRECTIVE ACTION</th></tr>
+    <tr><td>No sound at all</td><td>ENTER not pressed; tab muted; VOLUME at 0; no key lit</td><td>Press ENTER; unmute the tab; raise VOLUME; press a key pad</td></tr>
+    <tr><td>Key lit but oscillator silent</td><td>Another oscillator is soloed</td><td>Darken every S</td></tr>
+    <tr><td>Delay MIX has no effect</td><td>T1 and T2 dark on every sounding oscillator</td><td>Light T1 or T2 on at least one oscillator</td></tr>
+    <tr><td>CHANCE and LENGTH darkened</td><td>Controller in SAW or REV</td><td>Select RANDOM</td></tr>
+    <tr><td>TIME controller lamp never flashes</td><td>CHANCE 0 %, or mode not RANDOM</td><td>Raise CHANCE; select RANDOM</td></tr>
+    <tr><td>Harsh, overloaded sound</td><td>High DRIVE, FEEDBACK, MOD</td><td>Lower them; lower VOLUME</td></tr>
+    <tr><td>Crackling with many oscillators</td><td>Processor of the host device saturated</td><td>Remove blocks; close other tabs</td></tr>
+    <tr><td>Live background stays black</td><td>Nothing sounds (normal); or no WebGL</td><td>Sound an oscillator; use another browser</td></tr>
+    <tr><td>Controls move by themselves</td><td>Saraswati session in progress</td><td>Press the call button to end it</td></tr>
+    <tr><td>Repeated refusals</td><td>The station refuses some calls</td><td>Call again; see paragraph 5-2</td></tr></table>
+
+  <h2 style="margin-top:26px">APPENDIX A</h2><div class="sub">SPECIFICATIONS</div>
+  <table class="spec">
+    <tr><th>ITEM</th><th>VALUE</th></tr>
+    <tr><td>Oscillators</td><td>10 at switch-on; expandable in pairs to 68, plus a single OSC 69</td></tr>
+    <tr><td>Waveforms</td><td>Band-limited pulse 53 % / integrated triangle, crossfaded</td></tr>
+    <tr><td>Tuning ranges</td><td>(PITCH at centre, ×1.01) OSC 1, 2: 3.29 Hz – 1.78 kHz · OSC 3: 12.4 Hz – 4.49 kHz · OSC 4: 13.9 Hz – 4.00 kHz · OSC 5, 6: 26.3 Hz – 6.94 kHz · OSC 7: 55.7 Hz – 12.2 kHz · OSC 8: 55.7 Hz – 16.2 kHz. Added oscillators repeat this cycle.</td></tr>
+    <tr><td>PITCH multiplier</td><td>×0.01 – ×2.00</td></tr>
+    <tr><td>FM depth (MOD)</td><td>0 – 2</td></tr>
+    <tr><td>Envelope</td><td>FAST: 100 ms / 100 ms · slow: 200 ms / 8 s</td></tr>
+    <tr><td>HYPER LFO rate</td><td>0.107 Hz – 165 Hz per square</td></tr>
+    <tr><td>Delay</td><td>1.45 ms – 5.94 s per line · modulation ±10 ms · feedback ×0 – ×4</td></tr>
+    <tr><td>TIME controllers</td><td>SPEED 10 ms – 60 s · SPREAD ±64 steps · CHANCE 0–100 % · LENGTH 10 ms – 10 s · glide 19 ms</td></tr>
+    <tr><td>Distortion</td><td>Drive +6 – +30 dB, asymmetric soft clipper</td></tr>
+    <tr><td>Reverb</td><td>8 combs + 4 all-pass per side · pre-delay 0–500 ms · low-pass 200 Hz – 20 kHz · high-pass 20 Hz – 2 kHz</td></tr>
+    <tr><td>Frequency readout</td><td>Within ±0.5 cent of the output (unmodulated)</td></tr>
+    <tr><td>Processing</td><td>Audio thread (AudioWorklet), 64-bit internal precision; main-thread fallback</td></tr>
+    <tr><td>Load</td><td>About one third of one desktop processor core with 69 oscillators sounding</td></tr></table>
+  <div class="foot"><span>6-1</span><span>CHANGE 1</span></div>
+</section>
+
+<section class="sheet">
+  <div class="run"><span>TM 69-5895-SRW-1-10</span><span>APPENDIX B</span></div>
+  <h2>APPENDIX B</h2><div class="sub">HANDLING OF CONTROLS · CREDITS</div>
+  <table class="spec">
+    <tr><th>ACTION</th><th>RESULT</th></tr>
+    <tr><td>Drag a knob up / down</td><td>Increase / decrease</td></tr>
+    <tr><td>Hold Shift while dragging</td><td>Fine adjustment</td></tr>
+    <tr><td>Double-click a knob</td><td>Return to its switch-on value</td></tr>
+    <tr><td>Arrow keys · Page Up/Down · Home/End</td><td>Step, coarse step, minimum / maximum (knob focused)</td></tr>
+    <tr><td>Click a selector segment</td><td>Select that position</td></tr>
+    <tr><td>Click a key pad</td><td>Latch on / off</td></tr>
+    <tr><td>Scroll the oscillator bar sideways</td><td>Reach further blocks</td></tr></table>
+  <h3>B-2. CREDITS</h3>
+  <p>Saraswati-1 based on Lira-8 project by Mike Moreno, a digital attempt at emulating SOMA Lab’s Lyra-8 signal flow. Saraswati-1 is a completely separated standalone project, not associated with neither Mike Moreno nor SOMA Lab.</p>
+  <p>Made by: <b>panasko.dev</b></p>
+  <p>Special thanks to: somasynths.com · mikemorenodsp@gmail.com</p>
+  <div style="height:340px"></div>
+  <div class="stamp" style="bottom:120px; left:50%; margin-left:-150px; width:300px; font-size:17px;">END OF MANUAL<br>RETURN TO STATION</div>
+  <div class="foot"><span>B-1</span><span>CHANGE 1</span></div>
+</section>
+
+<section class="sheet">
+  <div class="run"><span>TM 69-5895-SRW-1-10</span><span>MODIFICATION WORK ORDER 1</span></div>
+  <h2>MODIFICATION WORK ORDER 1</h2><div class="sub">SOFTNESS CONTROL · RANDOM BUTTON</div>
+  <h3>MWO 1-1. PURPOSE</h3>
+  <p>SOFTNESS is the last stage of the signal path, placed beside VOLUME and ahead of the safety limiter. It removes the ear-cutting part of the sound, the harsh band between 2 and 8 kHz, and leaves the rest of the spectrum alone. It is set to 85 at switch-on. The station never moves it; only the RANDOM button does (paragraph MWO 1-4).</p>
+  <h3>MWO 1-2. OPERATION</h3>
+  <p>The stage is made of two parts. The first is a compressor that works only on the harsh band. The second is a gentle low-pass filter that rounds off the top of the spectrum.</p>
+  <table class="spec"><caption>Table MWO 1-1. SOFTNESS settings</caption>
+    <tr><th>ITEM</th><th>VALUE</th></tr>
+    <tr><td>Range · switch-on value</td><td>0 – 100 · 85</td></tr>
+    <tr><td>At 0</td><td>Stage bypassed. The signal passes unchanged.</td></tr>
+    <tr><td>Band split frequency</td><td>About 3.2 kHz at 0, falling to about 2.2 kHz at 100</td></tr>
+    <tr><td>Harsh-band compressor</td><td>Logarithmic. Ratio and depth rise with the setting. Acts above the split frequency only.</td></tr>
+    <tr><td>Detectors</td><td>Two. One follows the level of the harsh band. The other follows the share of the harsh band in the whole sound. The compressor acts only when both call for it.</td></tr>
+    <tr><td>Air low-pass filter</td><td>6 dB per octave. About 20 kHz at 0, falling to about 8 kHz at 100.</td></tr></table>
+  <h3>MWO 1-3. EFFECT AT SWITCH-ON VALUE</h3>
+  <table class="spec"><caption>Table MWO 1-2. Measured effect at 85</caption>
+    <tr><th>SIGNAL</th><th>RESULT</th></tr>
+    <tr><td>Soft drones, low oscillators</td><td>About 0 dB. No audible change.</td></tr>
+    <tr><td>Bright square wave</td><td>About 8.8 dB less energy above 4 kHz</td></tr>
+    <tr><td>Harsh square waves with DRIVE</td><td>About 19.6 dB less total level</td></tr></table>
+  <div class="box"><span class="t">NOTE</span> Soft material passes untouched, because the compressor does not act on it. A sound that is harsh is reduced. A sound that is merely bright is reduced less.</div>
+  <div class="box"><span class="t">HINT</span> For a sharper, more open sound, lower SOFTNESS. For a very bright patch with high DRIVE, raise it. Double-click the dial to return to 85.</div>
+
+  <h3>MWO 1-4. RANDOM BUTTON</h3>
+  <p>The RANDOM button is in the header, to the left of the call button. One press gives every control a new setting at once. It is meant for finding a starting point quickly, or for escaping a patch that has become stale.</p>
+  <table class="spec"><caption>Table MWO 1-3. Action of RANDOM</caption>
+    <tr><th>CONTROL</th><th>RESULT</th></tr>
+    <tr><td>Every knob, including SOFTNESS</td><td>A random value anywhere in its full range</td></tr>
+    <tr><td>Every selector</td><td>A random position</td></tr>
+    <tr><td>Every switch (oscillator key, FAST, T1, T2, S, LINK)</td><td>On or off, with equal chance</td></tr>
+    <tr><td>VOLUME</td><td>Not changed</td></tr></table>
+  <div class="box warn"><span class="t">WARNING</span> The result may be loud, harsh or very bright. Keep VOLUME low before pressing RANDOM, and raise it afterwards.</div>
+  <div class="box"><span class="t">NOTE</span> The station will never leave the set silent. If every key falls dark, one is lit. If an oscillator is soloed, at least one soloed oscillator is made to sound. Controls set by a running Saraswati session are taken over by RANDOM and stay where it puts them.</div>
+  <div class="foot"><span>MWO 1-1</span><span>MWO 1</span></div>
+</section>
+</body>
+</html>

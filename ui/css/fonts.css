@@ -1,0 +1,7 @@
+/* Local copies of the Google Fonts the instrument uses (SIL Open Font License, see fonts/OFL-*.txt),
+   subset to Latin + the symbols on the panel, so the plugin window renders identically offline. */
+@font-face { font-family: "Archivo"; src: url("../fonts/Archivo.woff") format("woff"); font-weight: 100 900; font-stretch: 62% 125%; font-display: block; }
+@font-face { font-family: "Martian Mono"; src: url("../fonts/MartianMono.woff") format("woff"); font-weight: 100 800; font-stretch: 75% 112.5%; font-display: block; }
+@font-face { font-family: "Orbitron"; src: url("../fonts/Orbitron.woff") format("woff"); font-weight: 400 900; font-display: block; }
+@font-face { font-family: "Rubik Glitch Pop"; src: url("../fonts/RubikGlitchPop.woff") format("woff"); font-weight: 400; font-display: block; }
+@font-face { font-family: "Tilt Neon"; src: url("../fonts/TiltNeon.woff") format("woff"); font-weight: 400; font-display: block; }
