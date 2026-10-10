@@ -1,0 +1,130 @@
+name: Build plugins
+
+# Builds Saraswati-1 as VST3 + AU + AAX (macOS, universal), VST3 + AAX (Windows) and VST3 (Linux),
+# validates them, and attaches zips to a GitHub release when a tag like v1.0.0 is pushed.
+on:
+  push:
+    branches: [main]
+    tags: ["v*"]
+  pull_request:
+  workflow_dispatch:
+
+env:
+  BUILD_TYPE: Release
+
+jobs:
+  macos:
+    runs-on: macos-14
+    steps:
+      - uses: actions/checkout@v4
+      - name: Configure
+        run: cmake -S . -B build -G Xcode -DCMAKE_OSX_ARCHITECTURES="arm64;x86_64"
+      - name: Build VST3, AU, AAX, Standalone
+        run: cmake --build build --config Release --parallel 4
+      - name: Validate (auval + pluginval)
+        run: |
+          set -e
+          A=build/Saraswati1_artefacts/Release
+          mkdir -p ~/Library/Audio/Plug-Ins/Components ~/Library/Audio/Plug-Ins/VST3
+          cp -R "$A/AU/Saraswati-1.component" ~/Library/Audio/Plug-Ins/Components/
+          cp -R "$A/VST3/Saraswati-1.vst3" ~/Library/Audio/Plug-Ins/VST3/
+          killall -9 AudioComponentRegistrar || true
+          auval -v aumu Srw1 Rdcx
+          curl -sSL -o pluginval.zip https://github.com/Tracktion/pluginval/releases/latest/download/pluginval_macOS.zip
+          unzip -q pluginval.zip
+          pluginval.app/Contents/MacOS/pluginval --strictness-level 8 --skip-gui-tests --validate-in-process "$A/VST3/Saraswati-1.vst3"
+      - name: Package
+        run: |
+          cd build/Saraswati1_artefacts/Release
+          mkdir -p dist
+          ditto -c -k --keepParent VST3/Saraswati-1.vst3            dist/Saraswati-1-macOS-VST3.zip
+          ditto -c -k --keepParent AU/Saraswati-1.component          dist/Saraswati-1-macOS-AU.zip
+          ditto -c -k --keepParent AAX/Saraswati-1.aaxplugin         dist/Saraswati-1-macOS-AAX-unsigned.zip
+          ditto -c -k --keepParent Standalone/Saraswati-1.app        dist/Saraswati-1-macOS-Standalone.zip
+      - uses: actions/upload-artifact@v4
+        with:
+          name: Saraswati-1-macOS
+          path: build/Saraswati1_artefacts/Release/dist/*.zip
+
+  windows:
+    runs-on: windows-2022
+    steps:
+      - uses: actions/checkout@v4
+      - name: Fetch WebView2 SDK (linked statically, no extra DLL to ship)
+        shell: pwsh
+        run: nuget install Microsoft.Web.WebView2 -Version 1.0.3485.44 -OutputDirectory "$env:GITHUB_WORKSPACE\webview2"
+      - name: Configure
+        shell: pwsh
+        run: cmake -S . -B build -G "Visual Studio 17 2022" -A x64 "-DJUCE_WEBVIEW2_PACKAGE_LOCATION=$env:GITHUB_WORKSPACE\webview2"
+      - name: Build VST3, AAX, Standalone
+        run: cmake --build build --config Release --parallel 4
+      - name: Validate (pluginval)
+        shell: pwsh
+        run: |
+          Invoke-WebRequest https://github.com/Tracktion/pluginval/releases/latest/download/pluginval_Windows.zip -OutFile pluginval.zip
+          Expand-Archive pluginval.zip -DestinationPath pv
+          .\pv\pluginval.exe --strictness-level 8 --skip-gui-tests --validate-in-process "build\Saraswati1_artefacts\Release\VST3\Saraswati-1.vst3"
+          if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
+      - name: Package
+        shell: pwsh
+        run: |
+          $A = "build\Saraswati1_artefacts\Release"
+          New-Item -ItemType Directory -Force dist | Out-Null
+          Compress-Archive -Path "$A\VST3\Saraswati-1.vst3"          -DestinationPath dist\Saraswati-1-Windows-VST3.zip
+          Compress-Archive -Path "$A\AAX\Saraswati-1.aaxplugin"      -DestinationPath dist\Saraswati-1-Windows-AAX-unsigned.zip
+          Compress-Archive -Path "$A\Standalone\Saraswati-1.exe"     -DestinationPath dist\Saraswati-1-Windows-Standalone.zip
+      - uses: actions/upload-artifact@v4
+        with:
+          name: Saraswati-1-Windows
+          path: dist/*.zip
+
+  linux:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+      - name: Install dependencies
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y ninja-build libasound2-dev libfreetype-dev libfontconfig1-dev \
+            libx11-dev libxcomposite-dev libxcursor-dev libxext-dev libxinerama-dev libxrandr-dev libxrender-dev \
+            libwebkit2gtk-4.1-dev libgtk-3-dev
+      - name: Configure
+        run: cmake -S . -B build -G Ninja -DCMAKE_BUILD_TYPE=Release -DSARASWATI_TESTS=ON
+      - name: Build
+        run: cmake --build build --parallel 4
+      - name: Test — engine is identical to the browser version
+        run: |
+          set -e
+          mkdir -p out
+          node tests/make_scenarios.mjs out 48000
+          for n in basic full; do build/render_cpp out/$n.txt out/$n.cpp.f32 48000; done
+          python3 -m pip install --break-system-packages numpy
+          python3 tests/compare.py out basic full | tee compare.log
+          grep -q "^MATCH" compare.log
+      - name: Test — VST3 in a host (parameters, MIDI, session recall, block size)
+        run: build/host_test_artefacts/Release/host_test build/Saraswati1_artefacts/Release/VST3/Saraswati-1.vst3 out
+      - name: Package
+        run: |
+          cd build/Saraswati1_artefacts/Release
+          mkdir -p dist
+          (cd VST3 && zip -qr ../dist/Saraswati-1-Linux-VST3.zip Saraswati-1.vst3)
+          (cd Standalone && zip -q ../dist/Saraswati-1-Linux-Standalone.zip Saraswati-1)
+      - uses: actions/upload-artifact@v4
+        with:
+          name: Saraswati-1-Linux
+          path: build/Saraswati1_artefacts/Release/dist/*.zip
+
+  release:
+    if: startsWith(github.ref, 'refs/tags/v')
+    needs: [macos, windows, linux]
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/download-artifact@v4
+        with:
+          path: dist
+          merge-multiple: true
+      - uses: softprops/action-gh-release@v2
+        with:
+          files: dist/*.zip
